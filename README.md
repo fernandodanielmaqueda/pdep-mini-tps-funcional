@@ -2,7 +2,7 @@
 
 Nombre y Apellido: Fernando Daniel Maqueda
 
-**Reemplazá este texto por el Badge de GitHub Actions como se explica en el TP0**
+[![build](https://github.com/pdep-mit/mini-tps-funcional-2022-fernandodanielmaqueda/actions/workflows/build.yml/badge.svg)](https://github.com/pdep-mit/mini-tps-funcional-2022-fernandodanielmaqueda/actions/workflows/build.yml)
 
 ## Información general
 
