@@ -12,14 +12,14 @@ estacion mes
  | ((mes == 4) || (mes == 5)) = "otonio"
  | ((mes == 7) || (mes == 8)) = "invierno"
  | ((mes == 10) || (mes == 11)) = "primavera"
- | (hayCambioDeEstacion mes) = (estacionMesAnterior mes) ++ "/" ++ (estacionMesSiguiente mes)
+ | (hayCambioDeEstacion mes) = estacion((mesAnterior mes)) ++ "/" ++ estacion((mesSiguiente mes))
 
-estacionMesAnterior :: Int -> String
-estacionMesAnterior mes
- | (mes == 1) = estacion 12
- | (esMes mes) = estacion (mes - 1)
+mesAnterior :: Int -> Int
+mesAnterior mes
+ | (mes == 1) = 12
+ | (esMes mes) = (mes - 1)
 
-estacionMesSiguiente :: Int -> String
-estacionMesSiguiente mes
- | (mes == 12) = estacion 1
- | (esMes mes) = estacion (mes + 1)
+mesSiguiente :: Int -> Int
+mesSiguiente mes
+ | (mes == 12) = 1
+ | (esMes mes) = (mes + 1)
