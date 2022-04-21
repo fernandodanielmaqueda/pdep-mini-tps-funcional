@@ -10,12 +10,6 @@ data Celular = Celular {
   proveedor :: String
 } deriving (Show, Eq)
 
-prueba :: Celular
-prueba = Celular {
-  linea = ("011", "1234-5678"),
-  saldo = 100,
-  proveedor = "Movistar"
-}
 ------------------------------------------
 
 promoRecarga :: Int -> Celular -> Celular
