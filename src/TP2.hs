@@ -19,13 +19,19 @@ prueba = Celular {
 ------------------------------------------
 
 promoRecarga :: Int -> Celular -> Celular
-promoRecarga montoPagado celular = (Celular (linea celular) ((promociones celular) (saldo celular) montoPagado) (proveedor celular))
+promoRecarga montoPagado celular = (Celular (linea celular) ((montoFinalDeRecarga celular) (saldo celular) montoPagado) (proveedor celular))
 
-promociones :: Celular -> (Int -> Int -> Int)
-promociones celular
- | ((proveedor celular) == "Movistar") && ((fst (linea celular)) == "011") = promoMovistar
+recargaSinPromo :: Int -> Celular -> Celular
+recargaSinPromo montoPagado celular = (Celular (linea celular) (sinPromo (saldo celular) montoPagado) (proveedor celular))
+
+montoFinalDeRecarga :: Celular -> (Int -> Int -> Int)
+montoFinalDeRecarga celular
+ | ((proveedor celular) == "Movistar") && ((codigoAreaLinea (linea celular)) == "011") = promoMovistar
  | ((proveedor celular) == "Personal") = promoPersonal
  | otherwise = sinPromo
+
+codigoAreaLinea :: (String, String) -> String
+codigoAreaLinea (codigoArea, _) = codigoArea
 
 promoMovistar :: Int -> Int -> Int
 promoMovistar saldoActual montoPagado = saldoActual + 3 * montoPagado
