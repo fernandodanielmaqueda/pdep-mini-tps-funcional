@@ -12,14 +12,17 @@ data Celular = Celular {
 
 ------------------------------------------
 
+recargarCelular :: (Int -> Int -> Int) -> Int -> Celular -> Celular
+recargarCelular montoFinalDeRecarga montoPagado celular = (Celular (linea celular) (montoFinalDeRecarga (saldo celular) montoPagado) (proveedor celular))
+
 promoRecarga :: Int -> Celular -> Celular
-promoRecarga montoPagado celular = (Celular (linea celular) ((montoFinalDeRecarga celular) (saldo celular) montoPagado) (proveedor celular))
+promoRecarga montoPagado celular = recargarCelular (calculoMontoRecarga celular) montoPagado celular
 
 recargaSinPromo :: Int -> Celular -> Celular
-recargaSinPromo montoPagado celular = (Celular (linea celular) (sinPromo (saldo celular) montoPagado) (proveedor celular))
+recargaSinPromo montoPagado celular = recargarCelular sinPromo montoPagado celular
 
-montoFinalDeRecarga :: Celular -> (Int -> Int -> Int)
-montoFinalDeRecarga celular
+calculoMontoRecarga :: Celular -> (Int -> Int -> Int)
+calculoMontoRecarga celular
  | ((proveedor celular) == "Movistar") && ((codigoAreaLinea (linea celular)) == "011") = promoMovistar
  | ((proveedor celular) == "Personal") = promoPersonal
  | otherwise = sinPromo
