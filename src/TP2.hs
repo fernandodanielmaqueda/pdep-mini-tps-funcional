@@ -12,29 +12,23 @@ data Celular = Celular {
 
 ------------------------------------------
 
-recargarCelular :: (Int -> Int -> Int) -> Int -> Celular -> Celular
-recargarCelular montoFinalDeRecarga montoPagado celular = (Celular (linea celular) (montoFinalDeRecarga (saldo celular) montoPagado) (proveedor celular))
-
 promoRecarga :: Int -> Celular -> Celular
-promoRecarga montoPagado celular = recargarCelular (calculoMontoRecarga celular) montoPagado celular
+promoRecarga montoPagado celular = recargarSaldo (calculoMontoRecarga montoPagado celular) celular
 
-recargaSinPromo :: Int -> Celular -> Celular
-recargaSinPromo montoPagado celular = recargarCelular sinPromo montoPagado celular
+recargarSaldo :: Int -> Celular -> Celular
+recargarSaldo montoFinalDeRecarga celular = (Celular (linea celular) ((saldo celular) + montoFinalDeRecarga) (proveedor celular))
 
-calculoMontoRecarga :: Celular -> (Int -> Int -> Int)
-calculoMontoRecarga celular
- | ((proveedor celular) == "Movistar") && ((codigoAreaLinea (linea celular)) == "011") = promoMovistar
- | ((proveedor celular) == "Personal") = promoPersonal
- | otherwise = sinPromo
+calculoMontoRecarga :: Int -> Celular -> Int
+calculoMontoRecarga montoPagado celular
+ | ((proveedor celular) == "Movistar") && ((codigoAreaLinea (linea celular)) == "011") = promoMovistar montoPagado
+ | ((proveedor celular) == "Personal") = promoPersonal montoPagado
+ | otherwise = montoPagado
 
 codigoAreaLinea :: (String, String) -> String
 codigoAreaLinea (codigoArea, _) = codigoArea
 
-promoMovistar :: Int -> Int -> Int
-promoMovistar saldoActual montoPagado = saldoActual + 3 * montoPagado
+promoMovistar :: Int -> Int
+promoMovistar = (3*)
 
-promoPersonal :: Int -> Int -> Int
-promoPersonal saldoActual montoPagado = saldoActual + montoPagado + (min montoPagado 100)
-
-sinPromo :: Int -> Int -> Int
-sinPromo saldoActual montoPagado = saldoActual + montoPagado
+promoPersonal :: Int -> Int
+promoPersonal montoPagado = montoPagado + (min montoPagado 100)
