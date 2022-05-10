@@ -2,18 +2,21 @@ module TP4 where
 import ContenidoAudiovisual
 
 tieneHashtag :: String -> Video -> Bool
-tieneHashtag hashtag video = elem hashtag (hashtags video)
+tieneHashtag = flip (flip elem.hashtags)
 
 minutosTotalesConHashtag :: String -> Playlist -> Int
-minutosTotalesConHashtag hashtag playlist = (foldl (+) 0.map (\video -> minutos video).filter (tieneHashtag hashtag)) (videos playlist)
+minutosTotalesConHashtag hashtag = sum.map (\video -> minutos video).filter (tieneHashtag hashtag).videos
 
 estanRelacionados :: Video -> Video -> Bool
-estanRelacionados video1 video2 = (any (== True).map (\hashtag -> any (== hashtag) (hashtags video1))) (hashtags video2)
+estanRelacionados video1 = any (== True).map ((flip tieneHashtag) video1).hashtags
 
 recomendable :: Video -> Playlist -> Bool
-recomendable videoNuevo playlist = ((>= cantidad).length.filter (\videoPlaylist -> estanRelacionados videoNuevo videoPlaylist)) (videos playlist)
+recomendable videoNuevo = (>= cantidad).length.filter (estanRelacionados videoNuevo).videos
     where
         cantidad = 2
 
 agregarVideosRecomendados :: [Video] -> Playlist -> Playlist
-agregarVideosRecomendados videosNuevos playlist = foldr (\videoNuevo playlist -> agregarAPlaylistSoloSi recomendable videoNuevo playlist) playlist videosNuevos
+agregarVideosRecomendados = flip (foldr agregarUnVideoRecomendado)
+
+agregarUnVideoRecomendado :: Video -> Playlist -> Playlist
+agregarUnVideoRecomendado = agregarAPlaylistSoloSi recomendable
