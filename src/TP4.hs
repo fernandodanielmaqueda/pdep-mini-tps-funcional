@@ -5,7 +5,7 @@ tieneHashtag :: String -> Video -> Bool
 tieneHashtag = flip (flip elem.hashtags)
 
 minutosTotalesConHashtag :: String -> Playlist -> Int
-minutosTotalesConHashtag hashtag = sum.map (\video -> minutos video).filter (tieneHashtag hashtag).videos
+minutosTotalesConHashtag hashtag = sum.map (minutos $).filter (tieneHashtag hashtag).videos
 
 estanRelacionados :: Video -> Video -> Bool
 estanRelacionados video1 = any (== True).map ((flip tieneHashtag) video1).hashtags
