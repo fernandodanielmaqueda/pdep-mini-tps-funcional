@@ -2,13 +2,13 @@ module TP4 where
 import ContenidoAudiovisual
 
 tieneHashtag :: String -> Video -> Bool
-tieneHashtag = flip (flip elem.hashtags)
+tieneHashtag hashtagBuscado = elem hashtagBuscado.hashtags
 
 minutosTotalesConHashtag :: String -> Playlist -> Int
-minutosTotalesConHashtag hashtag = sum.map (minutos $).filter (tieneHashtag hashtag).videos
+minutosTotalesConHashtag hashtag = sum.map minutos.filter (tieneHashtag hashtag).videos
 
 estanRelacionados :: Video -> Video -> Bool
-estanRelacionados video1 = any (== True).map ((flip tieneHashtag) video1).hashtags
+estanRelacionados video1 = any (flip tieneHashtag video1).hashtags
 
 recomendable :: Video -> Playlist -> Bool
 recomendable videoNuevo = (>= cantidad).length.filter (estanRelacionados videoNuevo).videos
